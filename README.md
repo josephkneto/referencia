@@ -3,6 +3,7 @@ Jogo com pygame para projeto final de Dessoft - INSPER 2021 1sem
 
 # MegaShot
 ![alt text](https://github.com/josephkneto/referencia/blob/master/megashot.logo.png)
+> LOGO.
 
 
 
