@@ -1,15 +1,13 @@
 import pygame
-from config import FPS, WIDTH, HEIGHT, BLACK, RED
+from config import FPS, WIDTH, HEIGHT, BLACK, RED, WIN, LOSE, QUIT
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
-from sprites import renan, cas, Bullet, Explosion
-
-
+from sprites import renan, cas, Bullet, Explosion, bulleta
 def game_screen(window):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
-
+ 
     assets = load_assets()
-
+ 
     # Criando um grupo de meteoros
     all_sprites = pygame.sprite.Group()
     all_cas = pygame.sprite.Group()
@@ -18,33 +16,34 @@ def game_screen(window):
     groups['all_sprites'] = all_sprites
     groups['all_cas'] = all_cas
     groups['all_bullets'] = all_bullets
-
+ 
     # Criando o jogador
     player = renan(groups, assets)
     all_sprites.add(player)
     castilho = cas(assets)
     all_sprites.add(castilho)
     all_cas.add(castilho)
-
+ 
     DONE = 0
     PLAYING = 1
     EXPLODING = 2
+    run = True
     state = PLAYING
-
     keys_down = {}
     score = 0
-    lives = 3
-
+    lives = 5
+ 
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
-    while state != DONE:
+    while run: #rodando
         clock.tick(FPS)
-
+ 
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
-                state = DONE
+                state = QUIT #rodando = False
+                run = False
             # Só verifica o teclado se está no estado de jogo
             if state == PLAYING:
                 # Verifica se apertou alguma tecla.
@@ -53,12 +52,12 @@ def game_screen(window):
                     keys_down[event.key] = True
                     if event.key == pygame.K_SPACE:
                         player.shoot()
-
-
+ 
+ 
         # ----- Atualiza estado do jogo
         # Atualizando a posição dos meteoros
         all_sprites.update()
-
+ 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
             hits = pygame.sprite.groupcollide(all_cas, all_bullets, True, True, pygame.sprite.collide_mask)
@@ -68,56 +67,48 @@ def game_screen(window):
                 m = cas(assets)
                 all_sprites.add(m)
                 all_cas.add(m)
-
+ 
                 # No lugar do meteoro antigo, adicionar uma explosão.
                 explosao = Explosion(mcas.rect.center, assets)
                 all_sprites.add(explosao)
-
+ 
                 # Ganhou pontos!
                 score += 100
                 if score == 500:
-                    state = DONE
-
-            # Verifica se houve colisão entre nave e meteoro
-            hits = pygame.sprite.spritecollide(player, all_cas, True, pygame.sprite.collide_mask)
-            if len(hits) > 0:
-                # Toca o som da colisão
-                assets[BOOM_SOUND].play()
-                player.kill()
-                lives -= 1
-                explosao = Explosion(player.rect.center, assets)
-                all_sprites.add(explosao)
-                state = EXPLODING
-                keys_down = {}
-                explosion_tick = pygame.time.get_ticks()
-                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
-                
-        elif state == EXPLODING:
-            now = pygame.time.get_ticks()
-            if now - explosion_tick > explosion_duration:
-                if lives == 0:
-                    state = DONE
-                else:
-                    state = PLAYING
-                    player = renan(groups, assets)
-                    all_sprites.add(player)
-
+                    state = WIN
+                    run = False
+            if len(bulleta) == 1:
+                lives = 4
+            if len(bulleta) == 2:
+                lives = 3
+            if len(bulleta) == 3:
+                lives = 2
+            if len(bulleta) == 4:
+                lives = 1
+            if len(bulleta) == 5:
+                lives = 0
+    
+            if lives == 0:
+                state = LOSE
+                run = False
+ 
         # ----- Gera saídas
         window.fill(BLACK)  # Preenche com a cor branca
         window.blit(assets[BACKGROUND], (0, 0))
         # Desenhando meteoros
         all_sprites.draw(window)
-
+ 
         # Desenhando o score
         text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, RED)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
         window.blit(text_surface, text_rect)
-
+ 
         # Desenhando as vidas
         text_surface = assets[SCORE_FONT].render(chr(9829) * lives, True, RED)
         text_rect = text_surface.get_rect()
         text_rect.bottomleft = (10, HEIGHT - 10)
         window.blit(text_surface, text_rect)
-
+ 
         pygame.display.update()  # Mostra o novo frame para o jogador
+    return state
