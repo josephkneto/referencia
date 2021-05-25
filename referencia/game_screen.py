@@ -1,6 +1,5 @@
 import pygame
-from pygame.constants import WINDOWCLOSE
-from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED, WIN, LOSE
+from config import FPS, WIDTH, HEIGHT, BLACK, RED
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
 from sprites import renan, cas, Bullet, Explosion
 
@@ -35,10 +34,10 @@ def game_screen(window):
     keys_down = {}
     score = 0
     lives = 3
-    rodando = True
+
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
-    while rodando:
+    while state != DONE:
         clock.tick(FPS)
 
         # ----- Trata eventos
@@ -46,7 +45,6 @@ def game_screen(window):
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 state = DONE
-                rodando = False
             # Só verifica o teclado se está no estado de jogo
             if state == PLAYING:
                 # Verifica se apertou alguma tecla.
@@ -78,8 +76,7 @@ def game_screen(window):
                 # Ganhou pontos!
                 score += 100
                 if score == 500:
-                    state = WIN
-                    rodando = False
+                    state = DONE
 
             # Verifica se houve colisão entre nave e meteoro
             hits = pygame.sprite.spritecollide(player, all_cas, True, pygame.sprite.collide_mask)
@@ -99,8 +96,7 @@ def game_screen(window):
             now = pygame.time.get_ticks()
             if now - explosion_tick > explosion_duration:
                 if lives == 0:
-                    state = LOSE
-                    rodando = False
+                    state = DONE
                 else:
                     state = PLAYING
                     player = renan(groups, assets)
@@ -113,7 +109,7 @@ def game_screen(window):
         all_sprites.draw(window)
 
         # Desenhando o score
-        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, YELLOW)
+        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, RED)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
         window.blit(text_surface, text_rect)

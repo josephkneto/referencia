@@ -11,8 +11,8 @@ HEIGHT = 400
 FPS = 60 # Frames por segundo
 
 # Define tamanhos
-cas_WIDTH = 70
-cas_HEIGHT = 50
+cas_WIDTH = 80
+cas_HEIGHT = 60
 renan_WIDTH = 60
 renan_HEIGHT = 48
 
@@ -28,5 +28,3 @@ YELLOW = (255, 255, 0)
 INIT = 0
 GAME = 1
 QUIT = 2
-WIN = 3
-LOSE = 4
