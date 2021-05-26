@@ -24,9 +24,8 @@ def game_screen(window):
     all_sprites.add(castilho)
     all_cas.add(castilho)
  
-    DONE = 0
+
     PLAYING = 1
-    EXPLODING = 2
     run = True
     state = PLAYING
     keys_down = {}
