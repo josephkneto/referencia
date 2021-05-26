@@ -73,7 +73,7 @@ def game_screen(window):
  
                 # Ganhou pontos!
                 score += 100
-                if score == 500:
+                if score == 1000:
                     state = WIN
                     run = False
             if len(bulleta) == 1:
