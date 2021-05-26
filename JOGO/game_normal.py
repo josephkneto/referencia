@@ -1,7 +1,8 @@
 import pygame
 from config import FPS, WIDTH, HEIGHT, BLACK, RED, WIN, LOSE, QUIT
-from assets import load_assets, DESTROY_SOUND2, BOOM_SOUND, GAME_NORMAL, SCORE_FONT, PIZZA
+from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, GAME_NORMAL, SCORE_FONT, PIZZA, DESTROY_SOUND2, DESTROY_SOUND3
 from sprites import renan, cas, Bullet, Explosion, bulleta
+import random
 
 def game_normal(window):
     # Variável para o ajuste de velocidade
@@ -60,7 +61,13 @@ def game_normal(window):
             hits = pygame.sprite.groupcollide(all_cas, all_bullets, True, True, pygame.sprite.collide_mask)
             for mcas in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
                 # O meteoro e destruido e precisa ser recriado
-                assets[DESTROY_SOUND2].play()
+                x = random.randint(0, 2)
+                if x == 0:
+                    assets[DESTROY_SOUND].play()
+                elif x == 1:
+                    assets[DESTROY_SOUND2].play()
+                elif x == 2:
+                    assets[DESTROY_SOUND3].play()
                 m = cas(assets)
                 all_sprites.add(m)
                 all_cas.add(m)
