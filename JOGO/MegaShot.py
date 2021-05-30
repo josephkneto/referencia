@@ -1,17 +1,11 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
-
-
+ 
+ 
 import pygame
 import random
 from config import WIDTH, HEIGHT, INIT, GAME_easy, GAME_hard, QUIT, WIN, LOSE, GAME_normal, GAME_hard_intro
-from init_screen import init_screen
-from game_easy import game_easy
-from win_screen import win_screen
-from lose_screen import lose_screen
-from game_hard import game_hard
-from game_normal import game_normal
-from game_hard_intro import game_hard_intro
+from game_screen import game_hard, game_normal, game_easy, game_hard_intro, init_screen, win_screen, lose_screen
 import os
  
 pygame.init()
@@ -40,3 +34,4 @@ while state != QUIT:
  
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+

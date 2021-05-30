@@ -13,8 +13,8 @@ FPS = 60 # Frames por segundo
 # Define tamanhos
 cas_WIDTH = 80
 cas_HEIGHT = 60
-renan_WIDTH = 60
-renan_HEIGHT = 48
+renan_WIDTH = 90
+renan_HEIGHT = 68
  
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)

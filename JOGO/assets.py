@@ -33,7 +33,7 @@ def load_assets():
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'background.png')).convert()
     assets[cas_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'castilho.png')).convert_alpha()
     assets[cas_IMG] = pygame.transform.scale(assets['cas_img'], (cas_WIDTH, cas_HEIGHT))
-    assets[renan_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'renan.png')).convert_alpha()
+    assets[renan_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'renan2.png')).convert_alpha()
     assets[renan_IMG] = pygame.transform.scale(assets['renan_img'], (renan_WIDTH, renan_HEIGHT))
     assets[BULLET_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'laserRed16.png')).convert_alpha()
     assets[YOU_LOSE] = pygame.image.load(os.path.join(IMG_DIR, 'tela_gameover.png')).convert()
