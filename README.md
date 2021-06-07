@@ -15,3 +15,4 @@ O jogo está na pasta JOGO no código Megashot.py. Se rodá-lo terá acesso ao j
 
 
 # LINK PARA VÍDEO DA GAMEPLAY
+[![Veja o video](https://img.youtu.be/Lbn6FjZYNjQ/maxresdefault.jpg)](https://youtu.be/Lbn6FjZYNjQ)
