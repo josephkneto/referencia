@@ -28,6 +28,7 @@ PIZZA = 'pizza'
 EPICO = 'epico'
 LUGAR = 'lugar'
 FEIO = 'feio'
+SOUND_EASY = 'sound_easy'
 def load_assets():
     assets = {}
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'background.png')).convert()
@@ -51,8 +52,6 @@ def load_assets():
     assets[SCORE_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'PressStart2P.ttf'), 28)
 
     # Carrega os sons do jogo
-    pygame.mixer.music.load(os.path.join(SND_DIR, 'musicafundo.wav'))
-    pygame.mixer.music.set_volume(0.4)
     assets[DESTROY_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM.wav'))
     assets[DESTROY_SOUND2] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM2.wav'))
     assets[DESTROY_SOUND3] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM3.wav'))
@@ -61,6 +60,8 @@ def load_assets():
     assets[VOCE_PERDEU] = pygame.mixer.Sound(os.path.join(SND_DIR, 'voceperdeu.wav'))
     assets[VOCE_PERDEU].set_volume(200.0)
     assets[MATEI_TRES] = pygame.mixer.Sound(os.path.join(SND_DIR, 'mateitres.wav'))
+    assets[SOUND_EASY] = pygame.mixer.Sound(os.path.join(SND_DIR, 'musicafundo.wav'))
+    assets[SOUND_EASY].set_volume(0.4)
     assets[PIZZA] = pygame.mixer.Sound(os.path.join(SND_DIR, 'pizza.wav'))
     assets[PIZZA].set_volume(0.6)
     assets[EPICO] = pygame.mixer.Sound(os.path.join(SND_DIR, 'epic.wav'))

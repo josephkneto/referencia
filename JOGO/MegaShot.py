@@ -5,7 +5,8 @@
 import pygame
 import random
 from config import WIDTH, HEIGHT, INIT, GAME_easy, GAME_hard, QUIT, WIN, LOSE, GAME_normal, GAME_hard_intro
-from game_screen import game_hard, game_normal, game_easy, game_hard_intro, init_screen, win_screen, lose_screen
+from assets import BACKGROUND, GAME_NORMAL, GAME_HARD, SOUND_EASY, PIZZA, EPICO, VOCE_GANHOU, VOCE_PERDEU, YOU_LOSE, VOCE_TENTOU
+from game_screen import game_screens, game_hard_intro, init_screen, winORlose_screen
 import os
  
 pygame.init()
@@ -22,15 +23,15 @@ while state != QUIT:
     elif state == GAME_hard_intro:
         state = game_hard_intro(window)
     elif state == GAME_easy:
-        state = game_easy(window)
+        state = game_screens(window, BACKGROUND, SOUND_EASY, 5, 1000)
     elif state == GAME_normal:
-        state = game_normal(window)
+        state = game_screens(window, GAME_NORMAL, PIZZA,3, 1500)
     elif state == GAME_hard:
-        state = game_hard(window)
+        state = game_screens(window, GAME_HARD, EPICO,1, 2000)
     elif state == WIN:
-        state = win_screen(window)
+        state = winORlose_screen(window, VOCE_GANHOU, VOCE_PERDEU)
     elif state == LOSE:
-        state = lose_screen(window)
+        state = winORlose_screen(window, YOU_LOSE, VOCE_TENTOU)
  
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
