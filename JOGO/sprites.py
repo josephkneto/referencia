@@ -4,18 +4,18 @@ from config import WIDTH, HEIGHT, cas_WIDTH, cas_HEIGHT, renan_WIDTH, renan_HEIG
 from assets import renan_IMG, PEW_SOUND, cas_IMG, BULLET_IMG, EXPLOSION_ANIM
 bulleta = []
 class renan(pygame.sprite.Sprite):
-    def __init__(self, groups, assets):
+    def __init__(self, groups, images):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
  
-        self.image = assets[renan_IMG]
+        self.image = images[renan_IMG]
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = -15
         self.groups = groups
-        self.assets = assets
+        self.images = images
  
         # Só será possível atirar uma vez a cada 500 milissegundos
         self.last_shot = pygame.time.get_ticks()
@@ -50,11 +50,11 @@ class renan(pygame.sprite.Sprite):
             self.assets[PEW_SOUND].play()
  
 class cas(pygame.sprite.Sprite):
-    def __init__(self, assets):
+    def __init__(self, images):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
  
-        self.image = assets[cas_IMG]
+        self.image = images[cas_IMG]
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, WIDTH-cas_WIDTH)
@@ -95,12 +95,12 @@ class Bullet(pygame.sprite.Sprite):
 # Classe que representa uma explosão de meteoro
 class Explosion(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self, center, assets):
+    def __init__(self, center, images):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
  
         # Armazena a animação de explosão
-        self.explosion_anim = assets[EXPLOSION_ANIM]
+        self.explosion_anim = images[EXPLOSION_ANIM]
  
         # Inicia o processo de animação colocando a primeira imagem na tela.
         self.frame = 0  # Armazena o índice atual na animação
