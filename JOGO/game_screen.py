@@ -1,8 +1,8 @@
  
 import pygame
 from config import FPS, WIDTH, HEIGHT, BLACK, RED, WIN, LOSE, QUIT, GAME_hard, IMG_DIR, GAME_easy, GAME_hard_intro, GAME_normal
-from assets import load_assets, DESTROY_SOUND, SCORE_FONT, MATEI_TRES, DESTROY_SOUND2, DESTROY_SOUND3, FEIO, LUGAR, VOCE_PERDEU, VOCE_TENTOU
-from assets import load_assets, DESTROY_SOUND, SCORE_FONT, MATEI_TRES, DESTROY_SOUND2, DESTROY_SOUND3, FEIO, LUGAR, VOCE_PERDEU, VOCE_TENTOU
+from assets import load_sounds, load_images, DESTROY_SOUND, SCORE_FONT, MATEI_TRES, DESTROY_SOUND2, DESTROY_SOUND3, FEIO, LUGAR, VOCE_PERDEU, VOCE_TENTOU
+
 from sprites import renan, cas, Bullet, Explosion, bulleta
 import random
 from os import path
@@ -52,7 +52,8 @@ def game_screens(window, image, som, vida, ganhou):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
  
-    assets = load_assets()
+    sounds = load_sounds()
+    images = load_images()
  
     # Criando um grupo de meteoros
     all_sprites = pygame.sprite.Group()
@@ -64,9 +65,9 @@ def game_screens(window, image, som, vida, ganhou):
     groups['all_bullets'] = all_bullets
  
     # Criando o jogador
-    player = renan(groups, assets)
+    player = renan(groups, images)
     all_sprites.add(player)
-    castilho = cas(assets)
+    castilho = cas(images)
     all_sprites.add(castilho)
     all_cas.add(castilho)
  
@@ -78,7 +79,7 @@ def game_screens(window, image, som, vida, ganhou):
     score = 0
     soundplay = True
     # ===== Loop principal =====
-    assets[som].play(loops=-1)
+    sounds[som].play(loops=-1)
     while run: #rodando
         clock.tick(FPS)
  
@@ -107,17 +108,17 @@ def game_screens(window, image, som, vida, ganhou):
                 # O meteoro e destruido e precisa ser recriado
                 x = random.randint(0, 2)
                 if x == 0:
-                    assets[DESTROY_SOUND].play()
+                    sounds[DESTROY_SOUND].play()
                 elif x == 1:
-                    assets[DESTROY_SOUND2].play()
+                    sounds[DESTROY_SOUND2].play()
                 elif x == 2:
-                    assets[DESTROY_SOUND3].play()
-                m = cas(assets)
+                    sounds[DESTROY_SOUND3].play()
+                m = cas(images)
                 all_sprites.add(m)
                 all_cas.add(m)
  
                 # No lugar do meteoro antigo, adicionar uma explosão.
-                explosao = Explosion(mcas.rect.center, assets)
+                explosao = Explosion(mcas.rect.center, images)
                 all_sprites.add(explosao)
  
                 # Ganhou pontos!
@@ -133,7 +134,7 @@ def game_screens(window, image, som, vida, ganhou):
             if len(bulleta) == 3 and vida == 3:
                 vida = 2
                 if soundplay:
-                    assets[MATEI_TRES].play()
+                    sounds[MATEI_TRES].play()
                     soundplay = False
             if len(bulleta) == 4 and vida == 2:
                 vida = 1
@@ -155,18 +156,18 @@ def game_screens(window, image, som, vida, ganhou):
                 run = False
         # ----- Gera saídas
         window.fill(BLACK)  # Preenche com a cor branca
-        window.blit(assets[image], (0, 0))
+        window.blit(images[image], (0, 0))
         # Desenhando meteoros
         all_sprites.draw(window)
  
         # Desenhando o score
-        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, RED)
+        text_surface = images[SCORE_FONT].render("{:08d}".format(score), True, RED)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
         window.blit(text_surface, text_rect)
  
         # Desenhando as vidas
-        text_surface = assets[SCORE_FONT].render(chr(9829) * vida, True, RED)
+        text_surface = images[SCORE_FONT].render(chr(9829) * vida, True, RED)
         text_rect = text_surface.get_rect()
         text_rect.bottomleft = (10, HEIGHT - 10)
         window.blit(text_surface, text_rect)
@@ -177,7 +178,8 @@ def game_screens(window, image, som, vida, ganhou):
 def game_hard_intro(screen):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
-    assets = load_assets()
+    sounds = load_sounds()
+    images = load_images()
     # Carrega o fundo da tela inicial
     inits = pygame.image.load(path.join(IMG_DIR, 'game_hard_intro.png')).convert()
     inits_rect = inits.get_rect()
@@ -198,15 +200,15 @@ def game_hard_intro(screen):
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    assets[FEIO].stop()
-                    assets[LUGAR].stop()
+                    sounds[FEIO].stop()
+                    sounds[LUGAR].stop()
                     state = GAME_hard
                     running = False
             if feio:
-                assets[FEIO].play()
+                sounds[FEIO].play()
                 feio = False
             if lugar:
-                assets[LUGAR].play()
+                sounds[LUGAR].play()
                 lugar = False
  
         # A cada loop, redesenha o fundo e os sprites
@@ -219,9 +221,10 @@ def game_hard_intro(screen):
     return state
  
 def winORlose_screen(screen, imagem, som):
-    assets = load_assets()
+    sounds = load_sounds()
+    images = load_images()
     clock = pygame.time.Clock()
-    assets[som].play()
+    sounds[som].play()
  
     running = True
     while running:
@@ -242,7 +245,7 @@ def winORlose_screen(screen, imagem, som):
  
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
-        screen.blit(assets[imagem], (0, 0))
+        screen.blit(images[imagem], (0, 0))
  
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()

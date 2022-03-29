@@ -29,18 +29,18 @@ EPICO = 'epico'
 LUGAR = 'lugar'
 FEIO = 'feio'
 SOUND_EASY = 'sound_easy'
-def load_assets():
-    assets = {}
-    assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'background.png')).convert()
-    assets[cas_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'castilho.png')).convert_alpha()
-    assets[cas_IMG] = pygame.transform.scale(assets['cas_img'], (cas_WIDTH, cas_HEIGHT))
-    assets[renan_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'renan2.png')).convert_alpha()
-    assets[renan_IMG] = pygame.transform.scale(assets['renan_img'], (renan_WIDTH, renan_HEIGHT))
-    assets[BULLET_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'laserRed16.png')).convert_alpha()
-    assets[YOU_LOSE] = pygame.image.load(os.path.join(IMG_DIR, 'tela_gameover.png')).convert()
-    assets[VOCE_GANHOU] = pygame.image.load(os.path.join(IMG_DIR, 'tela_win.png')).convert()
-    assets[GAME_HARD] = pygame.image.load(os.path.join(IMG_DIR, 'GAME_HARD.jpeg')).convert()
-    assets[GAME_NORMAL] = pygame.image.load(os.path.join(IMG_DIR, 'GAME_normal.png')).convert()
+def load_images():
+    images = {}
+    images[BACKGROUND] = fetch_image('background.png').convert()
+    images[cas_IMG] = fetch_image('castilho.png').convert_alpha()
+    images[cas_IMG] = pygame.transform.scale(images['cas_img'], (cas_WIDTH, cas_HEIGHT))
+    images[renan_IMG] = fetch_image('renan2.png').convert_alpha()
+    images[renan_IMG] = pygame.transform.scale(images['renan_img'], (renan_WIDTH, renan_HEIGHT))
+    images[BULLET_IMG] = fetch_image('laserRed16.png').convert_alpha()
+    images[YOU_LOSE] = fetch_image('tela_gameover.png').convert()
+    images[VOCE_GANHOU] = fetch_image('tela_win.png').convert()
+    images[GAME_HARD] = fetch_image('GAME_HARD.jpeg').convert()
+    images[GAME_NORMAL] = fetch_image('GAME_normal.png').convert()
     explosion_anim = []
     for i in range(9):
         # Os arquivos de animação são numerados de 00 a 08
@@ -48,24 +48,32 @@ def load_assets():
         img = pygame.image.load(filename).convert()
         img = pygame.transform.scale(img, (32, 32))
         explosion_anim.append(img)
-    assets[EXPLOSION_ANIM] = explosion_anim
-    assets[SCORE_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'PressStart2P.ttf'), 28)
+    images[EXPLOSION_ANIM] = explosion_anim
+    images[SCORE_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'PressStart2P.ttf'), 28)
 
     # Carrega os sons do jogo
-    assets[DESTROY_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM.wav'))
-    assets[DESTROY_SOUND2] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM2.wav'))
-    assets[DESTROY_SOUND3] = pygame.mixer.Sound(os.path.join(SND_DIR, 'casM3.wav'))
-    assets[PEW_SOUND] = pygame.mixer.Sound(os.path.join(SND_DIR, 'tome.wav'))
-    assets[VOCE_TENTOU] = pygame.mixer.Sound(os.path.join(SND_DIR, 'vocetentou.wav'))
-    assets[VOCE_PERDEU] = pygame.mixer.Sound(os.path.join(SND_DIR, 'voceperdeu.wav'))
-    assets[VOCE_PERDEU].set_volume(200.0)
-    assets[MATEI_TRES] = pygame.mixer.Sound(os.path.join(SND_DIR, 'mateitres.wav'))
-    assets[SOUND_EASY] = pygame.mixer.Sound(os.path.join(SND_DIR, 'musicafundo.wav'))
-    assets[SOUND_EASY].set_volume(0.4)
-    assets[PIZZA] = pygame.mixer.Sound(os.path.join(SND_DIR, 'pizza.wav'))
-    assets[PIZZA].set_volume(0.6)
-    assets[EPICO] = pygame.mixer.Sound(os.path.join(SND_DIR, 'epic.wav'))
-    assets[EPICO].set_volume(0.4)
-    assets[LUGAR] = pygame.mixer.Sound(os.path.join(SND_DIR, 'lugar.wav'))
-    assets[FEIO] = pygame.mixer.Sound(os.path.join(SND_DIR, 'feio.wav'))
-    return assets
+def load_sounds():
+    sounds = {}
+    sounds[DESTROY_SOUND] = fetch_sound('casM.wav')
+    sounds[DESTROY_SOUND2] = fetch_sound('casM2.wav')
+    sounds[DESTROY_SOUND3] = fetch_sound('casM3.wav')
+    sounds[PEW_SOUND] = fetch_sound('tome.wav')
+    sounds[VOCE_TENTOU] = fetch_sound('vocetentou.wav')
+    sounds[VOCE_PERDEU] = fetch_sound('voceperdeu.wav')
+    sounds[VOCE_PERDEU].set_volume(200.0)
+    sounds[MATEI_TRES] = fetch_sound('mateitres.wav')
+    sounds[SOUND_EASY] = fetch_sound('musicafundo.wav')
+    sounds[SOUND_EASY].set_volume(0.4)
+    sounds[PIZZA] = fetch_sound('pizza.wav')
+    sounds[PIZZA].set_volume(0.6)
+    sounds[EPICO] = fetch_sound('epic.wav')
+    sounds[EPICO].set_volume(0.4)
+    sounds[LUGAR] = fetch_sound('lugar.wav')
+    sounds[FEIO] = fetch_sound('feio.wav')
+    return sounds
+
+def fetch_sound(name):
+    return pygame.mixer.Sound(os.path.join(SND_DIR, name))
+
+def fetch_image(name):
+    return pygame.image.load(os.path.join(IMG_DIR,name))
